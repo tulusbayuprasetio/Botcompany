@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Nusa Point Reward</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;font-family:Arial,sans-serif;background:#0b0f14;color:#e5e7eb;
+  padding-bottom:120px;
+}
+.container{padding:16px;text-align:center}
+.hidden{display:none}
+
+/* HEADER */
+.header{text-align:left;margin-bottom:6px}
+
+/* ORB (RESPONSIVE) */
+.orb{
+  width:70vw;max-width:260px;height:70vw;max-height:260px;margin:16px auto;
+  border-radius:50%;
+  background:radial-gradient(circle at 30% 30%, #4ade80, #14532d);
+  display:flex;align-items:center;justify-content:center;
+  font-size:clamp(16px,4vw,22px);font-weight:bold;
+}
+
+/* BALANCE */
+.balance{font-size:clamp(22px,6vw,30px);margin-top:6px}
+.balance span{font-size:14px;color:#9ca3af}
+
+/* CARD */
+.card{
+  background:#111827;border-radius:14px;padding:14px;margin-top:10px;
+  text-align:left;font-size:14px
+}
+
+/* INPUT & BTN */
+input,select{
+  width:100%;padding:10px;margin-top:8px;border-radius:8px;border:none
+}
+.btn{
+  width:100%;padding:12px;margin-top:10px;border-radius:10px;border:none;
+  background:#4ade80;color:#000;font-weight:bold
+}
+
+/* MINE BTN */
+.mine-btn{
+  position:fixed;bottom:92px;left:50%;transform:translateX(-50%);
+  width:68px;height:68px;border-radius:50%;border:none;background:#4ade80;
+  font-size:24px;box-shadow:0 10px 30px rgba(74,222,128,.4);z-index:10;
+}
+
+/* BOTTOM NAV */
+.bottom-nav{
+  position:fixed;bottom:0;left:0;right:0;height:70px;background:#020617;
+  border-top:1px solid #1f2933;display:flex;justify-content:space-around;
+  align-items:center;z-index:9
+}
+.nav-item{text-align:center;font-size:11px;color:#9ca3af}
+.nav-item.active{color:#4ade80}
+.nav-item div{font-size:22px;margin-bottom:2px}
+
+/* STATUS */
+.status-active{color:#4ade80}
+.status-inactive{color:#f87171}
+.hr{border:0;border-top:1px solid #1f2933;margin:10px 0}
+</style>
+</head>
+
+<body>
+
+<!-- HOME -->
+<div id="home" class="container">
+  <div class="header"><h3 id="user">Hello 👋</h3></div>
+  <div class="orb" id="orb">Mining 94%</div>
+  <div class="balance">
+    <b id="balance">0.00</b> NPR<br><span>Total Balance</span>
+  </div>
+  <div class="card">👥 Referral aktif: <b id="refActive">0</b></div>
+  <div class="card">⚡ Mining rate: <b>0.8 / 24 jam</b></div>
+</div>
+
+<!-- WALLET -->
+<div id="wallet" class="container hidden">
+  <h2>👛 Wallet</h2>
+  <div class="card"><b>Balance</b><h3>0.00 NPR</h3></div>
+  <div class="card">
+    <b>Send Token</b>
+    <input placeholder="Address tujuan">
+    <input placeholder="Amount">
+    <select>
+      <option>BEP-20</option>
+      <option>ERC-20</option>
+      <option>Polygon</option>
+    </select>
+    <button class="btn">Send (Coming Soon)</button>
+  </div>
+</div>
+
+<!-- BONUS (Referral List) -->
+<div id="bonus" class="container hidden">
+  <h2>🎁 Bonus</h2>
+
+  <div class="card">
+    <b>Referral Summary</b><br>
+    Total: <b>5</b><br>
+    Active: <b class="status-active">3</b><br>
+    Inactive: <b class="status-inactive">2</b>
+  </div>
+
+  <div class="card">
+    <b>Referral List</b>
+    <div style="margin-top:10px"><b>@user_alpha</b><br><span class="status-active">● Active</span></div>
+    <div class="hr"></div>
+    <div><b>@user_beta</b><br><span class="status-active">● Active</span></div>
+    <div class="hr"></div>
+    <div><b>@user_gamma</b><br><span class="status-inactive">● Inactive</span></div>
+    <div class="hr"></div>
+    <div><b>@user_delta</b><br><span class="status-inactive">● Inactive</span></div>
+  </div>
+
+  <div class="card">
+    <b>Your Referral Link</b><br>
+    <small id="reflink">https://t.me/Nusa_Point_Reward_Bot</small>
+    <button class="btn" onclick="copyRef()">Copy Referral Link</button>
+  </div>
+</div>
+
+<!-- SETTINGS -->
+<div id="settings" class="container hidden">
+  <h2>⚙️ Settings</h2>
+
+  <div class="card">
+    <b>Profile</b>
+    <input placeholder="Username">
+    <input placeholder="Nama">
+    <button class="btn">Save Profile</button>
+  </div>
+
+  <div class="card">
+    <b>Security</b>
+    <input placeholder="Password baru">
+    <input placeholder="Konfirmasi password">
+    <button class="btn">Change Password</button>
+  </div>
+
+  <div class="card">
+    <b>📄 Whitepaper</b><br>
+    Pelajari konsep, tokenomics, dan roadmap Nusa Point Reward.
+    <button class="btn">View Whitepaper</button>
+  </div>
+</div>
+
+<!-- MINE BUTTON -->
+<button class="mine-btn" onclick="mine()">⛏️</button>
+
+<!-- BOTTOM NAV -->
+<div class="bottom-nav">
+  <div class="nav-item active" onclick="showTab('home',this)"><div>🏠</div>Home</div>
+  <div class="nav-item" onclick="showTab('wallet',this)"><div>👛</div>Wallet</div>
+  <div class="nav-item" onclick="showTab('bonus',this)"><div>🎁</div>Bonus</div>
+  <div class="nav-item" onclick="showTab('settings',this)"><div>⚙️</div>Settings</div>
+</div>
+
+<script>
+const tg = window.Telegram.WebApp;
+tg.ready();
+
+document.getElementById("user").innerText =
+  "Hello, " + (tg.initDataUnsafe.user?.first_name || "User");
+
+function showTab(id, el){
+  document.querySelectorAll('.container').forEach(d=>d.classList.add('hidden'));
+  document.getElementById(id).classList.remove('hidden');
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  el.classList.add('active');
+}
+
+function mine(){
+  // kirim event ke bot
+  tg.sendData(JSON.stringify({action:"mine"}));
+}
+
+function copyRef(){
+  navigator.clipboard.writeText(document.getElementById('reflink').innerText);
+  tg.showToast({message:"Referral link copied"});
+}
+</script>
+
+</body>
+</html>

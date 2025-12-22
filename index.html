@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Nusa Point Reward</title>
+<link rel="stylesheet" href="style.css">
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+</head>
+<body>
+
+<!-- PARTIKEL / BACKGROUND -->
+<canvas id="bg"></canvas>
+
+<!-- HOME -->
+<div id="home" class="container">
+  <div class="header"><h3 id="user">Hello 👋</h3></div>
+  <div class="orb" id="orb">Mining 0%</div>
+  <div class="balance">
+    <b id="balance">0.00</b> NPR<br><span>Total Balance</span>
+  </div>
+  <div class="card">👥 Referral aktif: <b id="refActive">0</b></div>
+  <div class="card">⚡ Mining rate: <b>0.8 / 24 jam</b></div>
+</div>
+
+<!-- WALLET -->
+<div id="wallet" class="container hidden">
+  <h2>👛 Wallet</h2>
+  <div class="card"><b>Balance</b><h3 id="walletBalance">0.00 NPR</h3></div>
+  <div class="card">
+    <b>Send Token</b>
+    <input placeholder="Address tujuan" id="sendAddress">
+    <input placeholder="Amount" id="sendAmount">
+    <select id="sendNetwork">
+      <option>BEP-20</option>
+      <option>ERC-20</option>
+      <option>Polygon</option>
+    </select>
+    <button class="btn">Send (Coming Soon)</button>
+  </div>
+</div>
+
+<!-- BONUS -->
+<div id="bonus" class="container hidden">
+  <h2>🎁 Bonus</h2>
+  <div class="card" id="referralSummary"></div>
+  <div class="card" id="referralList"></div>
+</div>
+
+<!-- SETTINGS -->
+<div id="settings" class="container hidden">
+  <h2>⚙️ Settings</h2>
+  <div class="card">
+    <b>Profile</b>
+    <input placeholder="Username" id="profileUsername">
+    <input placeholder="Nama" id="profileName">
+    <button class="btn">Save Profile</button>
+  </div>
+  <div class="card">
+    <b>Security</b>
+    <input placeholder="Password baru">
+    <input placeholder="Konfirmasi password">
+    <button class="btn">Change Password</button>
+  </div>
+  <div class="card">
+    <b>📄 Whitepaper</b><br>
+    Pelajari konsep, tokenomics, dan roadmap Nusa Point Reward.
+    <button class="btn">View Whitepaper</button>
+  </div>
+</div>
+
+<!-- MINING BUTTON -->
+<button class="mine-btn" id="mineBtn">⛏️</button>
+
+<!-- BOTTOM NAV -->
+<div class="bottom-nav">
+  <div class="nav-item active" onclick="showTab('home',this)"><div>🏠</div>Home</div>
+  <div class="nav-item" onclick="showTab('wallet',this)"><div>👛</div>Wallet</div>
+  <div class="nav-item" onclick="showTab('bonus',this)"><div>🎁</div>Bonus</div>
+  <div class="nav-item" onclick="showTab('settings',this)"><div>⚙️</div>Settings</div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
